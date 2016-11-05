@@ -1,0 +1,162 @@
+%% Single Particle Model w/ Electrolyte
+%   Published November 5, 2016 by Professor Scott Moura
+%   Energy, Controls, and Applications Lab (eCAL)
+%   University of California, Berkeley
+%   http://ecal.berkeley.edu/
+
+clear;
+clc;
+close all;
+
+disp('Single Particle Model w/ Electrolyte (SPMe)')
+disp('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+
+%% Electrochemical Model Parameters
+% Load Lithium Cobolt Oxide Params, adopted from DUALFOIL
+run param/params_LCO
+
+%% Input charge/discharge Current Data %%
+% % Current | Positive <=> Discharge, Negative <=> Charge
+
+% Calculate C-rate in terms of [A/m^2] using low/high voltage cutoffs
+[cn_low,cp_low] = init_cs(p,p.volt_min);
+[cn_high,cp_high] = init_cs(p,p.volt_max);
+Delta_cn = cn_high-cn_low;
+Delta_cp = cp_low-cp_high;
+p.OneC = min(p.epsilon_s_n*p.L_n*Delta_cn*p.Faraday/3600, p.epsilon_s_p*p.L_p*Delta_cp*p.Faraday/3600);
+
+%%%%%%%%%%%%%%% MANUAL INPUT WITH C-RATE %%%%%%%%%%%%%%%%%%%%%%%%%
+p.delta_t = 1;
+t = 0:p.delta_t:(120);
+I = 5*p.OneC*ones(size(t));
+% I(11:40) = 5*p.OneC;
+% I((40+91):(40+90+30)) = -5*p.OneC;
+
+% I = 5*p.OneC*ones(size(t));
+
+%%%%%%%%%%%%%%% DYNAMIC CHARGE/DISCHARGE CYCLES FROM EXPERIMENTS %%%%%%%%%%%%%%%
+% load('data/UDDS_data_Oct_26_2015_Sample_05sec');
+% 
+% I = -current_exp'/p.Area;
+% t = time_exp';
+% p.delta_t = t(2)-t(1);
+
+
+% Data structure with time,current, initial condition
+data.time = t;
+data.cur = I;
+NT = length(t);
+
+%% Preallocation & Initial Conditions
+
+%%% Finite difference for spherical particle
+p.Nr = 30; % 100 Make this very large so it closely approximates the true model
+Nr = p.Nr;
+p.delta_r_n = 1/p.Nr;
+p.delta_r_p = 1/p.Nr;
+r_vec = (0:p.delta_r_n:1)';
+r_vecx = r_vec(2:end-1);
+
+% Finite difference points along x-coordinate
+p.Nxn = 10;
+p.Nxs = 5;
+p.Nxp = 10;
+p.Nx = p.Nxn+p.Nxs+p.Nxp;
+Nx = p.Nx - 3;
+
+p.delta_x_n = 1 / p.Nxn;
+p.delta_x_s = 1 / p.Nxs;
+p.delta_x_p = 1 / p.Nxp;
+
+% Output Discretization params
+disp('Discretization Params');
+fprintf(1,'No. of FDM nodes in Anode | Separator | Cathode : %1.0f | %1.0f | %1.0f\n',p.Nxn,p.Nxs,p.Nxp);
+fprintf(1,'No. of FDM nodes in Single Particles : %1.0f\n',p.Nr);
+fprintf(1,'Time Step : %2.2f sec\n',p.delta_t);
+disp(' ');
+
+
+%%% INITIAL CONDITIONS
+% Solid concentration
+V0 = 3.8;
+[csn0,csp0] = init_cs(p,V0);
+c_n0 = csn0 * ones(p.Nr-1,1);
+c_p0 = csp0 * ones(p.Nr-1,1);
+
+% Electrolyte concentration
+ce0 = p.c_e;
+data.c_e0 = p.c_e*ones(Nx,1);
+
+% Temperature
+T0 = p.T_amb;
+
+%% Generate SPMe System Matrices (A,C,B,D)
+
+%%% NEED TO ADD TEMPERATURE & CONCENTRATION DEPENDENT DIFFUSIVITY
+p.D_s_n = p.D_s_n0 * exp(p.E.Dsn/p.R*(1/p.T_ref - 1/T0));
+p.D_s_p = p.D_s_n0 * exp(p.E.Dsp/p.R*(1/p.T_ref - 1/T0));
+
+% Construct (A,B) matrices for solid-phase Li diffusion
+[A_n,A_p,B_n,B_p,C_n,C_p,D_n,D_p,MN_mats] = spm_plant_obs_mats(p);
+
+sys_n = ss(A_n,B_n,C_n,D_n);
+sys_p = ss(A_p,B_p,C_p,D_p);
+
+% Electrolyte concentration matrices
+[M1n,M2n,M3n,M4n,M5n, M1s,M2s,M3s,M4s, M1p,M2p,M3p,M4p,M5p, C_ce] = c_e_mats_scott(p);
+
+p.ce.M1n = M1n;
+p.ce.M2n = M2n;
+p.ce.M3n = M3n;
+p.ce.M4n = M4n;
+p.ce.M5n = M5n;
+
+p.ce.M1s = M1s;
+p.ce.M2s = M2s;
+p.ce.M3s = M3s;
+p.ce.M4s = M4s;
+
+p.ce.M1p = M1p;
+p.ce.M2p = M2p;
+p.ce.M3p = M3p;
+p.ce.M4p = M4p;
+p.ce.M5p = M5p;
+
+p.ce.C = C_ce;
+
+clear M1n M2n M3n M4n M5n M1s M2s M3s M4s M1p M2p M3p M4p M5p C_ce;
+
+%% Simulate SPMe Plant
+tic;
+disp('Simulating SPMe Plant');
+
+%%% Solid-phase Diffusion
+% Spherical Diffusion Simulation
+[c_ss_n,t,c_nx] = lsim(sys_n,I,t,c_n0);     % Anode Particle
+[c_ss_p,t,c_px] = lsim(sys_p,I,t,c_p0);     % Cathode Particle
+
+% Aggregate states
+c_n = [c_nx(:,1), c_nx, c_ss_n];
+c_p = [c_px(:,1), c_px, c_ss_p];
+
+
+%%% Electrolyte-phase Diffusion
+% Simulate electrolyte dynamics for a given input & initial conditions
+c_e = electrolyte_scott(data,p);
+
+% Electrolyte concentration endpoints
+ce0n = c_e(1,:);
+ce0p = c_e(end,:);
+
+% Average electrolyte concentrations
+cen_bar = mean(c_e(1:p.Nxn+1,:));
+ces_bar = mean(c_e((p.Nxn+1):(p.Nxn+p.Nxs+1),:));
+cep_bar = mean(c_e((p.Nxn+p.Nxs+1):(p.Nxn+p.Nxs+p.Nxp+1),:));
+
+% Voltage Output Function
+V_noVCE = zeros(size(t));
+V_electrolyte = zeros(size(t));
+V = zeros(size(t));
+V_spm = zeros(size(t));
+SOC = zeros(size(t));
+n_Li_s = zeros(size(t));
