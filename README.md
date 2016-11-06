@@ -1,5 +1,6 @@
 # SPMeT
 ### Single Particle Model with Electrolyte and Temperature: An Electrochemical-Thermal Battery model
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.164958.svg)](https://doi.org/10.5281/zenodo.164958)
 
 Originally published November 5, 2016 by Professor Scott Moura  
 Energy, Controls, and Applications Lab (eCAL)  
