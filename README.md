@@ -48,7 +48,7 @@ The SPMe requires the following inputs:
  
 ### Outputs
 The SPMe simulates the following outputs:
-* __State-of-Charge__ ``SOC``: Bulk SOC in anode. This value is the typical SOC value reported in any battery-powered device.
+* __Bulk State-of-Charge__ ``SOC_n``, ``SOC_p``: Bulk SOC in anode and cathode, respectively. ``SOC_n`` is the typical SOC value reported in any battery-powered device.
 * __Voltage__ ``V``: Terminal voltage of battery with SPMe.
 * __SPM Voltage__ ``V_spm``: Terminal voltage of battey predicted with SPM model (i.e. without electrolyte subsystem).
 * __Solid-phase Lithium concentrations__ ``c_n`` and ``c_p``: Concentration of lithium in the solid phase of the anode and cathode, respectively, as a function of time step ``1:NT`` and radial distance ``r_vec``. Units are [mol/m^3].
