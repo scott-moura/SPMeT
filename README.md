@@ -8,12 +8,14 @@ University of California, Berkeley
 http://ecal.berkeley.edu/  
 
 ## Executive Summary
-This repository provides Matlab code for the Single Particle Model with Electrolyte (SPMe). The SPMe can be run and edited from filename [spme.m](spme.m). Future versions will include the Single Particle Model with Electrolyte and Temperature (SPMeT) dynamics. The SPMe model code is based upon the equations in the publication below.  
+This repository provides Matlab code for the Single Particle Model with Electrolyte (SPMe). A diagram of the SPMe is below. The SPMe can be run and edited from filename [spme.m](spme.m). Future versions will include the Single Particle Model with Electrolyte and Temperature (SPMeT) dynamics. The SPMe model code is based upon the equations in the publication below.  
 
 > ["Battery State Estimation for a Single Particle Model with Electrolyte Dynamics"](https://ecal.berkeley.edu/pubs/SPMe-Obs-Journal-Final.pdf)  
 > by S. J. Moura, F. Bribiesca Argomedo, R. Klein, A. Mirtabatabaei, M. Krstic  
 > IEEE Transactions on Control System Technology, to appear  
 > DOI: [10.1109/TCST.2016.2571663](http://dx.doi.org/10.1109/TCST.2016.2571663)  
+
+<img src="img/SPMe.png" alt="SPMe Diagram" width="500px">
 
 ### Features
 Specifically, the code models the following dynamics:  
