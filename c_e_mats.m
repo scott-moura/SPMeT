@@ -2,7 +2,7 @@
 %   Created June 19, 2015 by Scott Moura
 %   A complete reboot of the original c_e_mats from July 2011
 
-function [M1n,M2n,M3n,M4n,M5n, M1s,M2s,M3s,M4s, M1p,M2p,M3p,M4p,M5p, C_ce] = c_e_mats_scott(p)
+function [M1n,M2n,M3n,M4n,M5n, M1s,M2s,M3s,M4s, M1p,M2p,M3p,M4p,M5p, C_ce] = c_e_mats(p)
 
 %% Lumped Coefficients
 Del_xn = p.L_n * p.delta_x_n;
@@ -64,18 +64,18 @@ N1(1,2) = -1;
 N2(1,1) = -3;
 
 % BC2
-N1(2,p.Nxn-2) = p.epsilon_e_n/(2*Del_xn);
-N1(2,p.Nxn-1) = -4*p.epsilon_e_n/(2*Del_xn);
-N2(2,2) = (3*p.epsilon_e_n)/(2*Del_xn) + (3*p.epsilon_e_s)/(2*Del_xs);
-N1(2,p.Nxn) = -4*p.epsilon_e_s/(2*Del_xs);
-N1(2,p.Nxn+1) = p.epsilon_e_s/(2*Del_xs);
+N1(2,p.Nxn-2) = (p.epsilon_e_n^p.brug)/(2*Del_xn);
+N1(2,p.Nxn-1) = (-4*p.epsilon_e_n^p.brug)/(2*Del_xn);
+N2(2,2) = (3*p.epsilon_e_n^p.brug)/(2*Del_xn) + (3*p.epsilon_e_s^p.brug)/(2*Del_xs);
+N1(2,p.Nxn) = (-4*p.epsilon_e_s^p.brug)/(2*Del_xs);
+N1(2,p.Nxn+1) = (p.epsilon_e_s^p.brug)/(2*Del_xs);
 
 % BC3
-N1(3,p.Nxn+p.Nxs-3) = p.epsilon_e_s/(2*Del_xs);
-N1(3,p.Nxn+p.Nxs-2) = -4*p.epsilon_e_s/(2*Del_xs);
-N2(3,3) = (3*p.epsilon_e_s)/(2*Del_xs) + (3*p.epsilon_e_p)/(2*Del_xp);
-N1(3,p.Nxn+p.Nxs-1) = -4*p.epsilon_e_p/(2*Del_xp);
-N1(3,p.Nxn+p.Nxs) = p.epsilon_e_p/(2*Del_xp);
+N1(3,p.Nxn+p.Nxs-3) = (p.epsilon_e_s^p.brug)/(2*Del_xs);
+N1(3,p.Nxn+p.Nxs-2) = (-4*p.epsilon_e_s^p.brug)/(2*Del_xs);
+N2(3,3) = (3*p.epsilon_e_s^p.brug)/(2*Del_xs) + (3*p.epsilon_e_p^p.brug)/(2*Del_xp);
+N1(3,p.Nxn+p.Nxs-1) = (-4*p.epsilon_e_p^p.brug)/(2*Del_xp);
+N1(3,p.Nxn+p.Nxs) = (p.epsilon_e_p^p.brug)/(2*Del_xp);
 
 
 % BC4

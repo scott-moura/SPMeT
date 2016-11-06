@@ -31,8 +31,8 @@ p.epsilon_e_s = 1.0;   % Volume fraction in electrolyte for separator
 p.epsilon_e_p = 0.3;   % Volume fraction in electrolyte for pos. electrode
 
 % make element to caclulate phi_{s} by Saehong Park 
-p.epsilon_f_n = 0.1;  % Volume fraction of filler in neg. electrode
-p.epsilon_f_p = 0.2;  % Volume fraction of filler in pos. electrode
+p.epsilon_f_n = 1-p.epsilon_s_n-p.epsilon_e_n;  % Volume fraction of filler in neg. electrode
+p.epsilon_f_p = 1-p.epsilon_s_p-p.epsilon_e_p;  % Volume fraction of filler in pos. electrode
 
 epsilon_f_n = p.epsilon_f_n;  % Volume fraction of filler in neg. electrode
 epsilon_f_p = p.epsilon_f_p;  % Volume fraction of filler in pos. electrode
