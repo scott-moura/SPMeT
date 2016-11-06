@@ -36,10 +36,11 @@ Specifically, the code models the following dynamics:
 * Temperature dependent electrochemical parameters
 * Concentration dependent solid phase diffusivity
 * Multiple particle sizes / chemistries
+* Aging mechanisms
 
 ### Inputs
 The SPMe requires the following inputs:  
-* __Parameter file:__ A parameter file in directory ``/param`` which provides model parameter values that correspond to a particular chemistry. For example, ``params_LCO.m`` provides model parameter values for a graphite anode/lithium cobalt oxide cathode.
+* __Parameter file:__ A parameter file in directory ``/param`` which provides model parameter values that correspond to a particular chemistry. For example, [params_LCO.m](params_LCO.m) provides model parameter values for a graphite anode/lithium cobalt oxide cathode.
 * __Input current trajectory:__ A definition or input file in directory ``/input-data`` that provides a time series of electric current applied to the battery cell model in terms of A/m^2.
 * __Initial conditions:__ Initial conditions values for the state variables. These include:
   - Voltage ``V0``: Initial voltage. Variable ``V0`` and the moles of solid phase lithium ``p.n_Li_s`` in the parameter structure together are used to compute initial conditions for solid phase lithium ``csn0`` and ``csp0``
