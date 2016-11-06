@@ -22,10 +22,12 @@ xlim([0, t(end)])
 
 % Surface Concentrations
 subplot(312);
-plot(t,c_ss_n/p.c_s_n_max,'b-',t,c_ss_p/p.c_s_p_max,'r--','LineWidth',2);
-leg_css = {'$$\theta^-(t)$$';'$$\theta^+(t)$$'};
+plot(t,c_ss_n/p.c_s_n_max,'b-',t,c_ss_p/p.c_s_p_max,'r-','LineWidth',2);
+hold on;
+plot(t,SOC_n,'b--',t,SOC_p,'r--','LineWidth',2);
+leg_css = {'$$\theta^-(t)$$';'$$\theta^+(t)$$';'$$\overline{\theta}^-(t)$$';'$$\overline{\theta}^+(t)$$'};
 legend(leg_css,'FontSize',fs,'Interpreter','latex','Fontsize',fs)
-ylabel('Surface Conc. [-]','FontSize',fs);
+ylabel('Surface & Bulk SOC. [-]','FontSize',fs);
 set(gca,'FontSize',fs)
 xlim([0, t(end)])
 

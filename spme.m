@@ -36,15 +36,12 @@ p.OneC = min(p.epsilon_s_n*p.L_n*Delta_cn*p.Faraday/3600, p.epsilon_s_p*p.L_p*De
 p.delta_t = 1;
 t = 0:p.delta_t:(120);
 I = 2*p.OneC*ones(size(t));
-% I(11:40) = 5*p.OneC;
-% I((40+91):(40+90+30)) = -5*p.OneC;
 
-% I = 5*p.OneC*ones(size(t));
 
 %%%%%%%%%%%%%%% DYNAMIC CHARGE/DISCHARGE CYCLES FROM EXPERIMENTS %%%%%%%%%%%%%%%
-% load('data/UDDS_data_Oct_26_2015_Sample_05sec');
+% load('input-data/UDDS');
 % 
-% I = -current_exp'/p.Area;
+% I = -current_exp'/p.Area*10;
 % t = time_exp';
 % p.delta_t = t(2)-t(1);
 
@@ -223,8 +220,9 @@ for k = 1:NT
     % SPM Voltage
     V_spm(k) = nonlinearSPMOutputVoltage_Scott(p,c_ss_n(k),c_ss_p(k),p.c_e,p.c_e,p.c_e,I(k));
     
-    % State-of-Charge (Bulk Anode)
-    SOC(k) = 3/p.c_s_n_max * trapz(r_vec,r_vec.^2.*c_n(k,:)');
+    % State-of-Charge (Bulk)
+    SOC_n(k) = 3/p.c_s_n_max * trapz(r_vec,r_vec.^2.*c_n(k,:)');
+    SOC_p(k) = 3/p.c_s_p_max * trapz(r_vec,r_vec.^2.*c_p(k,:)');
     
     % Total Moles of Lithium in Solid
     n_Li_s(k) = (3*p.epsilon_s_p*p.L_p*p.Area) * trapz(r_vec,r_vec.^2.*c_p(k,:)') ...
