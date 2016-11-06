@@ -4,6 +4,13 @@
 %   University of California, Berkeley
 %   http://ecal.berkeley.edu/
 
+%   Code based on publication
+%   Battery State Estimation for a Single Particle Model with Electrolyte Dynamics 
+%   S. J. Moura, F. Bribiesca Argomedo, R. Klein, A. Mirtabatabaei, M. Krstic 
+%   IEEE Transactions on Control System Technology, to appear 
+%   DOI: 10.1109/TCST.2016.2571663
+
+
 clear;
 clc;
 close all;
@@ -87,7 +94,7 @@ c_p0 = csp0 * ones(p.Nr-1,1);
 
 % Electrolyte concentration
 ce0 = p.c_e;
-data.c_e0 = p.c_e*ones(Nx,1);
+data.c_e0 = ce0*ones(Nx,1);
 
 % Temperature
 T0 = p.T_amb;

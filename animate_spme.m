@@ -55,7 +55,7 @@ for k = 1:NT
     set(gca,'XTickLabel','');
     set(gca,'Position',[0.1 0.37 0.85 0.25])
 
-    % Voltage and Current
+    % Voltage
     subplot(3,3,[7 8 9]);
 %     plot(t(1:k),I(1:k),'g-',t(k),I(k),'go','LineWidth',2);
     hold on;
