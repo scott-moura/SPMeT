@@ -21,7 +21,19 @@ Specifically, the code models the following dynamics:
 * Electrolyte-phase lithium diffusion
 * Assumes isothermal operation (SPMe only)
 * Surface and bulk concentrations of lithium in solid-phase single particles
-* Voltage  
+* Voltage
+
+#### Detailed Features
+* Concentration dependent exchange current density
+* Concentration dependent electrolyte diffusivity
+* Concentration dependent electrolyte conductivity
+* Concentration dependent electrolyte activity coefficient function  
+
+#### Features not included
+* Temperature dynamics
+* Temperature dependent electrochemical parameters
+* Concentration dependent solid phase diffusivity
+* Multiple particle sizes / chemistries
 
 ### Inputs
 The SPMe requires the following inputs:  
@@ -35,7 +47,8 @@ The SPMe requires the following inputs:
 ### Outputs
 The SPMe simulates the following outputs:
 * __State-of-Charge__ ``SOC``: Bulk SOC in anode. This value is the typical SOC value reported in any battery-powered device.
-* __Voltage__ ``V``: Terminal voltage of battery.
+* __Voltage__ ``V``: Terminal voltage of battery with SPMe.
+* __SPM Voltage__ ``V_spm``: Terminal voltage of battey predicted with SPM model (i.e. without electrolyte subsystem).
 * __Solid-phase Lithium concentrations__ ``c_n`` and ``c_p``: Concentration of lithium in the solid phase of the anode and cathode, respectively, as a function of time step ``1:NT`` and radial distance ``r_vec``. Units are [mol/m^3].
 * __Surface concentrations of Lithium__ ``c_ss_n`` and ``c_ss_p``: Concentration of lithium at SURFACE of solid phase particles in the anode and cathode, respectively, as a function of time step ``1:NT``. Units are [mol/m^3].
 * __Electrolyte-phase Lithium concentrations__ ``c_e``: Concentration of lithium in the electrolyte phase, as a function of time step ``1:NT`` and distance across cell sandwich ``x_vec_spme``. Units are [mol/m^3].
