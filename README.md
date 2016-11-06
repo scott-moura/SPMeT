@@ -57,3 +57,11 @@ The SPMe simulates the following outputs:
 To visualize the SPMe simulation results, run the following code:
 * [plot_spme.m](plot_spme.m): Generates one static figure with (i) current, (ii) surface concentrations, and (iii) voltage.
 * [animate_spme.m](animate_spme.m): Generates an animated figure with (i) solid-phase lithium concentrations, (ii) electrolyte phase concentrations, and (iii) voltage.
+
+### Numerical Method Parameters
+The solid and electrolyte phase PDEs are solved with the central difference method and second-order accurate boundary conditions to ensure conservative solutions (i.e. conservation of matter). The accuracy / simulation speed can be adjusted by changing the following parameters.
+* ``p.delta_t``: Time step in [sec]. Default: 1 sec
+* ``p.Nr``: Number of nodes in finite discretization of single particles. Default: 30
+* ``p.Nxn``: Number of nodes along x-coordinate in Anode. Default: 10
+* ``p.Nxs``: Number of nodes along x-coordinate in Separator. Default: 5
+* ``p.Nxp``: Number of nodes along x-coordinate in Cathode. Default: 10
