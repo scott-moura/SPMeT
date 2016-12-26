@@ -39,7 +39,7 @@ p.OneC = min(p.epsilon_s_n*p.L_n*Delta_cn*p.Faraday/3600, p.epsilon_s_p*p.L_p*De
 %%%%%%%%%%%%%%% MANUAL INPUT WITH C-RATE %%%%%%%%%%%%%%%%%%%%%%%%%
 p.delta_t = 1;
 t = 0:p.delta_t:(120);
-I = 1*p.OneC*ones(size(t));
+I = -1*p.OneC*ones(size(t));
 
 
 %%%%%%%%%%%%%%% DYNAMIC CHARGE/DISCHARGE CYCLES FROM EXPERIMENTS %%%%%%%%%%%%%%%
@@ -100,11 +100,15 @@ ce0 = p.c_e*ones(Nx,1);
 T10 = p.T_amb;
 T20 = p.T_amb;
 
+% SEI layer
+delta_sei0 = 0;
+
 disp('Initial Conditions:');
 fprintf(1,'Voltage : %1.3f V\n',V0);
 fprintf(1,'Normalized Solid Concentration in Anode | Cathode : %1.2f | %1.2f\n',csn0/p.c_s_n_max,csp0/p.c_s_p_max);
 fprintf(1,'Electrolyte Concentration : %2.3f kmol/m^3\n',ce0(1)/1e3);
 fprintf(1,'Temperature in Roll | Can : %3.2f K | %3.2f K \n',T10,T20);
+fprintf(1,'SEI Layer in Anode : %2f um \n',delta_sei0*1e6);
 disp(' ');
 
 %% Generate Constant System Matrices
@@ -138,7 +142,7 @@ tic;
 disp('Simulating SPMeT Plant...');
 
 % Initial Conditions
-x0 = [c_n0; c_p0; ce0; T10; T20];
+x0 = [c_n0; c_p0; ce0; T10; T20; delta_sei0];
 
 % INTEGRATE !!!!
 [t,x] = ode23s(@(t,x) ode_spmet(t,x,data,p),t,x0);
@@ -147,8 +151,9 @@ x0 = [c_n0; c_p0; ce0; T10; T20];
 c_s_n = x(:,1:(p.Nr-1));
 c_s_p = x(:,p.Nr : 2*(p.Nr-1));
 c_ex = x(:,2*p.Nr-1 : 2*p.Nr-1+p.Nx-4);
-T1 = x(:,end-1);
-T2 = x(:,end);
+T1 = x(:,end-2);
+T2 = x(:,end-1);
+delta_sei = x(:,end);
 
 % Output Function %%%
 V = zeros(NT,1);
