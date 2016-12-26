@@ -115,6 +115,20 @@ p.C2 = 4.5;     % [J/K]
 p.h12 = 10; %1.9386; % [W/K]
 p.h2a = 21.45;  % [W/K]
 
+%% Aging submodel parameters
+
+%   SEI Layer Growth model
+%   Adopted from Ramadass et al (2004) [Univ of South Carolina]
+%   "Development of First Principles Capacity Fade Model for Li-Ion Cells"
+%   DOI: 10.1149/1.1634273
+%   NOTE: These parameters have NOT been experimentally validated by eCAL
+
+p.kappa_P = 1;      % [S/m] conductivity of side rxn product
+p.M_P = 7.3e1;      % [kg/mol] molecular weight of side rxn product
+p.rho_P = 2.1e3;    % [kg/m^3] mass density of side rxn product
+p.i0s = 0; %1.5e-6;     % [A/m^2] exchange current density of side rxn
+p.Us = 0.4;         % [V] reference potential of side rxn
+
 %% Concentrations
 % Maxima based on DUALFOIL 
 % line 588 in DUALFOIL Fortran code

@@ -6,10 +6,8 @@
 %   Equilibrium potentials are from Bosch Klein TCST 2011
 %   Electrode area chosen to correspond to 2.3 Ah cell
 %   Thermal parameters are adopted from L. Zhang (HIT) 2014 10.1016/j.jpowsour.2014.07.110
-%
+%   NOTE: Paramters represent an illustrative cell
 
-% Modified Apr 26, 2016 by Saehong Park
-% Added p.epsilon_f_n, p.epsilon_f_p to calculate Bruggeman relationship.
 
 %% Geometric Params
 % Thickness of each layer
@@ -66,9 +64,6 @@ p.rho_avg = m_n + m_s + m_p + m_cc;
 p.D_s_n0 = 3.9e-14;  % Diffusion coeff for solid in neg. electrode, [m^2/s]
 p.D_s_p0 = 1e-13;  % Diffusion coeff for solid in pos. electrode, [m^2/s]
 
-% Diffusional conductivity in electrolyte
-p.dactivity = 0;
-
 p.brug = 1.5;       % Bruggeman porosity
 
 % Conductivity of solid
@@ -95,10 +90,6 @@ p.k_p0 = 3e-7; % Reaction rate in pos. electrode, [(A/m^2)*(mol^3/mol)^(1+alpha)
 
 %% Thermodynamic Params
 
-% Thermal dynamics
-p.C_p = 2000;   % Heat capacity, [J/kg-K]
-p.h = 0.36;   % Heat transfer coefficient, [W/K-m^2] 0
-
 % Ambient Temperature
 p.T_amb = 298.15; % [K]
 
@@ -123,6 +114,17 @@ p.C1 = 62.7;    % [J/K]
 p.C2 = 4.5;     % [J/K]
 p.h12 = 10; %1.9386; % [W/K]
 p.h2a = 21.45;  % [W/K]
+
+%% Aging submodel parameters
+%   SEI Layer Growth model
+%   Taken from Ramadass et al (2002) [Univ of South Carolina]
+%   "Development of First Principles Capacity Fade Model for Li-Ion Cells"
+%   DOI: 10.1149/1.1634273
+%   NOTE: These parameters have NOT been experimentally validated by eCAL
+
+p.kappa_P = 1;      % [S/m] conductivity of side rxn product
+p.M_P = 7.3e4;      % [mol/kg] molecular weight of side rxn product
+p.rho_P = 2.1e3;    % [kg/m^3] 
 
 %% Concentrations
 % Maxima based on DUALFOIL 
