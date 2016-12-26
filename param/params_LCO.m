@@ -126,7 +126,7 @@ p.h2a = 21.45;  % [W/K]
 p.kappa_P = 1;      % [S/m] conductivity of side rxn product
 p.M_P = 7.3e1;      % [kg/mol] molecular weight of side rxn product
 p.rho_P = 2.1e3;    % [kg/m^3] mass density of side rxn product
-p.i0s = 1.5e-6;     % [A/m^2] exchange current density of side rxn
+p.i0s = 0; %1.5e-6;     % [A/m^2] exchange current density of side rxn
 p.Us = 0.4;         % [V] reference potential of side rxn
 
 %% Concentrations
