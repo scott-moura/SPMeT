@@ -144,9 +144,13 @@ RTaF=(p.R*T1)/(p.alph*p.Faraday);
 eta_n = RTaF * asinh(cur / (2*p.a_s_n*p.Area*p.L_n*i_0n(1)));
 eta_p = RTaF * asinh(-cur / (2*p.a_s_p*p.Area*p.L_p*i_0p(end)));
 
+% Total resistance (film + growing SEI layer)
+R_tot_n = p.R_f_n + delta_sei/p.kappa_P;
+R_tot_p = p.R_f_p + 0;
+
 % SPM Voltage (i.e. w/o electrolyte concentration terms)
 V_noVCE = eta_p - eta_n + Upref - Unref ...
-    - (p.R_f_n/(p.a_s_n*p.L_n*p.Area) + p.R_f_p/(p.a_s_p*p.L_p*p.Area))*cur;
+    - (R_tot_n/(p.a_s_n*p.L_n*p.Area) + R_tot_p/(p.a_s_p*p.L_p*p.Area))*cur;
 
 % Overpotential due to electrolyte conductivity
 V_electrolyteCond = (p.L_n/(2*kap_n_eff) + 2*p.L_s/(2*kap_s_eff) + p.L_p/(2*kap_p_eff))*cur;
@@ -193,16 +197,16 @@ T2_dot = (p.h12 * (T1-T2) + p.h2a*(p.T_amb - T2)) / p.C2;
 %   NOTE1: This model has NOT been validated experimentally by eCAL
 %   NOTE2: We assume this submodel only applies to anode
 
-% Difference btw solid and electrolyte overpotential
-phi_se = eta_n + Unref + p.Faraday*p.R_f_n*jn;
+% Difference btw solid and electrolyte overpotential [V]
+phi_se = eta_n + Unref + p.Faraday*R_tot_n*jn;
 
 % Side exn overpotential [V]
-eta_s = phi_se - p.Us - p.Faraday*p.R_f_n * jn;
+eta_s = phi_se - p.Us - p.Faraday*R_tot_n * jn;
 
 % Molar flux of side rxn [mol/s-m^2]
 j_s = -p.i0s/p.Faraday * exp((-p.alph*p.Faraday)/(p.R*T1)*eta_s);
 
-% SEI layer growth model
+% SEI layer growth model [m/s]
 delta_sei_dot = -p.M_P/(p.rho_P) * j_s;
 
 
