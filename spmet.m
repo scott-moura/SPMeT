@@ -39,7 +39,7 @@ p.OneC = min(p.epsilon_s_n*p.L_n*Delta_cn*p.Faraday/3600, p.epsilon_s_p*p.L_p*De
 %%%%%%%%%%%%%%% MANUAL INPUT WITH C-RATE %%%%%%%%%%%%%%%%%%%%%%%%%
 p.delta_t = 1;
 t = 0:p.delta_t:(120);
-I = -1*p.OneC*ones(size(t));
+I = 1*p.OneC*ones(size(t));
 
 
 %%%%%%%%%%%%%%% DYNAMIC CHARGE/DISCHARGE CYCLES FROM EXPERIMENTS %%%%%%%%%%%%%%%

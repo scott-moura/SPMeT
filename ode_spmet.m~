@@ -127,6 +127,27 @@ dfca_p = electrolyteAct(cep_bar,T1,p);
 p.k_n = p.k_n0 * exp(p.E.kn/p.R*(1/p.T_ref - 1/T1));
 p.k_p = p.k_p0 * exp(p.E.kp/p.R*(1/p.T_ref - 1/T1));
 
+% Stochiometric Concentration Ratio
+theta_n = c_ss_n / p.c_s_n_max;
+theta_p = c_ss_p / p.c_s_p_max;
+
+% Equilibrium Potential
+Unref = refPotentialAnode(p,theta_n);
+Upref = refPotentialCathode(p,theta_p);
+
+% Exchange current density
+c_e_bar = [cen_bar; ces_bar; cep_bar];
+[i_0n,i_0p] = exch_cur_dens(p,c_ss_n,c_ss_p,c_e_bar);
+
+% Overpotentials
+RTaF=(p.R*p.T_amb)/(p.alph*p.Faraday);
+eta_n = RTaF * asinh(cur / (2*p.a_s_n*p.Area*p.L_n*i_0n(1)));
+eta_p = RTaF * asinh(-cur / (2*p.a_s_p*p.Area*p.L_p*i_0p(end)))
+
+% Voltage
+V = eta_p - eta_n + Upref - Unref ...
+    - (p.R_f_n/(p.a_s_n*p.L_n*p.Area) + p.R_f_p/(p.a_s_p*p.L_p*p.Area))*cur;
+
 % SPM Voltage (i.e. w/o electrolyte concentration terms)
 V_noVCE = nonlinearSPMOutputVoltage_Scott(p,c_ss_n,c_ss_p,cen_bar,ces_bar,cep_bar,cur);
 
@@ -178,7 +199,7 @@ T2_dot = (p.h12 * (T1-T2) + p.h2a*(p.T_amb - T2)) / p.C2;
 % Overpotential
 RTaF=(p.R*T1)/(p.alph*p.Faraday);
 c_e_bar = [cen_bar; ces_bar; cep_bar];
-[i_0n,~] = exch_cur_dens(p,c_ss_n,c_ss_p,c_e_bar);
+[i_0n,~] = exch_cur_dens(p,c_ss_n,c_ss_p,c_e_bar)
 eta_n = RTaF * asinh(cur / (2*p.a_s_n*p.Area*p.L_n*i_0n(1)));
 
 % Difference btw solid and electrolyte overpotential
@@ -188,13 +209,12 @@ phi_se = eta_n + Un + p.Faraday*p.R_f_n*jn;
 % Side exn overpotential [V]
 eta_s = phi_se - p.Us - p.Faraday*p.R_f_n * jn;
 
-% Molar flux of side rxn [mol/s-m^3]
-j_s = -p.i0s*p.a_s_n/p.Faraday * exp((-p.alph*p.Faraday)/(p.R*T1)*eta_s);
+% Molar flux of side rxn [mol/s-m^2]
+j_s = -p.i0s/p.Faraday * exp((-p.alph*p.Faraday)/(p.R*T1)*eta_s);
 
 % SEI layer growth model
-delta_sei_dot = -p.M_P/(p.a_s_n*p.rho_P) * j_s;
+delta_sei_dot = -p.M_P/(p.rho_P) * j_s;
 
-j_s/jn * 100
 
 %% Concatenate time derivatives
 x_dot = [c_s_n_dot; c_s_p_dot; c_e_dot; T1_dot; T2_dot; delta_sei_dot];
