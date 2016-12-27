@@ -20,7 +20,7 @@ This repository provides Matlab code for the Single Particle Model with Electrol
 > 2016 American Control Conference
 > DOI: [10.1109/ACC.2016.7525538](http://dx.doi.org/10.1109/ACC.2016.7525538)  
 
-<img src="img/SPMe.png" alt="SPMe Diagram" width="500px">
+<img src="../../img/SPMe.png" alt="SPMe Diagram" width="500px">
 
 This repository also contains Matlab code for the SPMe, i.e. isothermal conditions with no temperature dynamics. The SPMe can be run and edited from filenames [spme.m](spme.m).
 
