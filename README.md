@@ -31,6 +31,7 @@ Specifically, the code models the following dynamics:
 * Electrolyte-phase lithium diffusion
 * Two-state thermal dynamics (jelly roll & can)
 * Temperature-dependent parameters
+* Optional SEI layer growth aging submodel
 * Voltage
 
 #### Detailed Features
@@ -42,7 +43,7 @@ Specifically, the code models the following dynamics:
 #### Features not included
 * Concentration dependent solid phase diffusivity
 * Multiple particle sizes / chemistries
-* Aging mechanisms
+* Aging mechanisms besides anode-side SEI layer growth
 
 ### Inputs
 The SPMeT requires the following inputs:  
@@ -53,6 +54,7 @@ The SPMeT requires the following inputs:
   - Electrolyte concentration ``ce0``: Initial concentration of lithium ions in the electrolyte, e.g. ``p.c_e`` from the parameter structure, in units of [mol/m^3]
   - Jelly Roll Temperature ``T10``: Initial temperature.
   - Can Temperature ``T20``: Initial temperature.
+  - SEI layer thickness ``delta_sei0``: Initial thickness
  
 ### Outputs
 The SPMeT simulates the following outputs:
@@ -62,6 +64,8 @@ The SPMeT simulates the following outputs:
 * __Solid-phase Lithium concentrations__ ``c_n`` and ``c_p``: Concentration of lithium in the solid phase of the anode and cathode, respectively, as a function of time step ``1:NT`` and radial distance ``r_vec``. Units are [mol/m^3].
 * __Surface concentrations of Lithium__ ``c_ss_n`` and ``c_ss_p``: Concentration of lithium at SURFACE of solid phase particles in the anode and cathode, respectively, as a function of time step ``1:NT``. Units are [mol/m^3].
 * __Electrolyte-phase Lithium concentrations__ ``c_e``: Concentration of lithium in the electrolyte phase, as a function of time step ``1:NT`` and distance across cell sandwich ``x_vec_spme``. Units are [mol/m^3].
+* __Temperatures__ ``T1`` and ``T2``: Temperature of the jelly roll and metal can, respectively. Units are [K].
+* __SEI Layer Thickness__ ``delta_sei``: Thickness of SEI layer on graphite anode. Units are [m].
 
 ### Visualizations
 To visualize the SPMe simulation results, run the following code:
