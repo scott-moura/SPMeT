@@ -1,4 +1,5 @@
 # SPMeT
+
 ### Single Particle Model with Electrolyte and Temperature: An Electrochemical-Thermal Battery model
 [![DOI](https://zenodo.org/badge/72948985.svg)](https://zenodo.org/badge/latestdoi/72948985)
 
@@ -26,6 +27,7 @@ This repository also contains Matlab code for the SPMe, i.e. isothermal conditio
 
 ### Features
 Specifically, the code models the following dynamics:  
+
 * Solid-phase lithium diffusion
 * Surface and bulk concentrations of lithium in solid-phase single particles
 * Electrolyte-phase lithium diffusion
@@ -46,7 +48,8 @@ Specifically, the code models the following dynamics:
 * Aging mechanisms besides anode-side SEI layer growth
 
 ### Inputs
-The SPMeT requires the following inputs:  
+The SPMeT requires the following inputs:
+
 * __Parameter file:__ A parameter file in directory ``/param`` which provides model parameter values that correspond to a particular chemistry. For example, [params_LCO.m](params_LCO.m) provides model parameter values for a graphite anode/lithium cobalt oxide cathode.
 * __Input current trajectory:__ A definition or input file in directory ``/input-data`` that provides a time series of electric current applied to the battery cell model in terms of A/m^2.
 * __Initial conditions:__ Initial conditions values for the state variables. These include:
@@ -58,6 +61,7 @@ The SPMeT requires the following inputs:
  
 ### Outputs
 The SPMeT simulates the following outputs:
+
 * __Bulk State-of-Charge__ ``SOC_n``, ``SOC_p``: Bulk SOC in anode and cathode, respectively. ``SOC_n`` is the typical SOC value reported in any battery-powered device.
 * __Voltage__ ``V``: Terminal voltage of battery with SPMe.
 * __SPM Voltage__ ``V_spm``: Terminal voltage of battey predicted with SPM model (i.e. without electrolyte subsystem).
@@ -69,11 +73,13 @@ The SPMeT simulates the following outputs:
 
 ### Visualizations
 To visualize the SPMe simulation results, run the following code:
-* [plot_spmet.m](plot_spmet.m): Generates one static figure with (i) current, (ii) surface concentrations, and (iii) voltage.
+
+* [plot_spmet.m](plot_spmet.m): Generates one static figure with (i) current, (ii) surface concentrations, (iii) temperatures, and (iv) voltage.
 * [animate_spmet.m](animate_spmet.m): Generates an animated figure with (i) solid-phase lithium concentrations, (ii) electrolyte phase concentrations, and (iii) voltage.
 
 ### Numerical Method Parameters
 The solid and electrolyte phase PDEs are solved with the central difference method and second-order accurate boundary conditions to ensure conservative solutions (i.e. conservation of matter). The accuracy / simulation speed can be adjusted by changing the following parameters.
+
 * ``p.delta_t``: Time step in [sec]. Default: 1 sec
 * ``p.Nr``: Number of nodes in finite discretization of single particles. Default: 30
 * ``p.Nxn``: Number of nodes along x-coordinate in Anode. Default: 10
