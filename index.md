@@ -57,7 +57,7 @@ The SPMeT requires the following inputs:
   - SEI layer thickness ``delta_sei0``: Initial thickness
  
 ### Outputs
-The SPMeT simulates the following outputs:
+The SPMeT simulates the following outputs:  
 * __Bulk State-of-Charge__ ``SOC_n``, ``SOC_p``: Bulk SOC in anode and cathode, respectively. ``SOC_n`` is the typical SOC value reported in any battery-powered device.
 * __Voltage__ ``V``: Terminal voltage of battery with SPMe.
 * __SPM Voltage__ ``V_spm``: Terminal voltage of battey predicted with SPM model (i.e. without electrolyte subsystem).
@@ -68,12 +68,12 @@ The SPMeT simulates the following outputs:
 * __SEI Layer Thickness__ ``delta_sei``: Thickness of SEI layer on graphite anode. Units are [m].
 
 ### Visualizations
-To visualize the SPMe simulation results, run the following code:
+To visualize the SPMe simulation results, run the following code:  
 * [plot_spmet.m](plot_spmet.m): Generates one static figure with (i) current, (ii) surface concentrations, and (iii) voltage.
 * [animate_spmet.m](animate_spmet.m): Generates an animated figure with (i) solid-phase lithium concentrations, (ii) electrolyte phase concentrations, and (iii) voltage.
 
 ### Numerical Method Parameters
-The solid and electrolyte phase PDEs are solved with the central difference method and second-order accurate boundary conditions to ensure conservative solutions (i.e. conservation of matter). The accuracy / simulation speed can be adjusted by changing the following parameters.
+The solid and electrolyte phase PDEs are solved with the central difference method and second-order accurate boundary conditions to ensure conservative solutions (i.e. conservation of matter). The accuracy / simulation speed can be adjusted by changing the following parameters.  
 * ``p.delta_t``: Time step in [sec]. Default: 1 sec
 * ``p.Nr``: Number of nodes in finite discretization of single particles. Default: 30
 * ``p.Nxn``: Number of nodes along x-coordinate in Anode. Default: 10
