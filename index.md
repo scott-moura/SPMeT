@@ -21,12 +21,12 @@ This repository provides Matlab code for the Single Particle Model with Electrol
 > 2016 American Control Conference
 > DOI: [10.1109/ACC.2016.7525538](http://dx.doi.org/10.1109/ACC.2016.7525538)  
 
-<img src="../master/img/SPMe.png" alt="SPMe Diagram" width="500px">
+<img src="img/SPMe.png" alt="SPMe Diagram" width="500px">
 
 This repository also contains Matlab code for the SPMe, i.e. isothermal conditions with no temperature dynamics. The SPMe can be run and edited from filenames [spme.m](spme.m).
 
 ### Features
-Specifically, the code models the following dynamics:
+Specifically, the code models the following dynamics:  
 
 * Solid-phase lithium diffusion
 * Surface and bulk concentrations of lithium in solid-phase single particles
@@ -74,7 +74,7 @@ The SPMeT simulates the following outputs:
 ### Visualizations
 To visualize the SPMe simulation results, run the following code:
 
-* [plot_spmet.m](plot_spmet.m): Generates one static figure with (i) current, (ii) surface concentrations, and (iii) voltage.
+* [plot_spmet.m](plot_spmet.m): Generates one static figure with (i) current, (ii) surface concentrations, (iii) temperatures, and (iv) voltage.
 * [animate_spmet.m](animate_spmet.m): Generates an animated figure with (i) solid-phase lithium concentrations, (ii) electrolyte phase concentrations, and (iii) voltage.
 
 ### Numerical Method Parameters
