@@ -1,0 +1,8 @@
+title: SPMeT
+description: "Single Particle Model with Electrolyte and Temperature: An electrochemical battery model"
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
