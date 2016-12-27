@@ -158,6 +158,7 @@ delta_sei = x(:,end);
 
 % Output Function %%%
 V = zeros(NT,1);
+V_spm = zeros(NT,1);
 SOC_n = zeros(NT,1);
 SOC_p = zeros(NT,1);
 c_ss_n = zeros(NT,1);
@@ -170,7 +171,7 @@ n_Li_s = zeros(NT,1);
 for k = 1:NT
     
     % Compute outputs
-    [~,V(k),SOC_n(k),SOC_p(k),c_ss_n(k),c_ss_p(k),c_e(:,k)] = ...
+    [~,V(k),V_spm(k),SOC_n(k),SOC_p(k),c_ss_n(k),c_ss_p(k),c_e(:,k)] = ...
         ode_spmet(t(k),x(k,:)',data,p);
 
     % Aggregate Solid concentrations

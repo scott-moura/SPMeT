@@ -233,10 +233,11 @@ x_dot = [c_s_n_dot; c_s_p_dot; c_e_dot; T1_dot; T2_dot; delta_sei_dot];
 
 %% Concatenate outputs
 varargout{1} = V;
-varargout{2} = SOC_n;
-varargout{3} = SOC_p;
-varargout{4} = c_ss_n;
-varargout{5} = c_ss_p;
-varargout{6} = c_ex';
+varargout{2} = V_noVCE;
+varargout{3} = SOC_n;
+varargout{4} = SOC_p;
+varargout{5} = c_ss_n;
+varargout{6} = c_ss_p;
+varargout{7} = c_ex';
 
 
